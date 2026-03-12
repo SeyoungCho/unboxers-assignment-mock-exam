@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.30.3",
   "scripts": {
-    "dev": "pnpm --filter ./apps/server dev",
+    "dev": "pnpm -r --parallel --filter ./apps/server --filter ./apps/web dev",
     "db:generate": "pnpm --filter ./apps/server db:generate",
     "db:push": "pnpm --filter ./apps/server db:push",
     "db:seed": "pnpm --filter ./apps/server db:seed"
