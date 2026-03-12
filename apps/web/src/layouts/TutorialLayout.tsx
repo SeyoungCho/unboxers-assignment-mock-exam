@@ -4,16 +4,18 @@ import { Outlet } from "react-router-dom";
 
 function TutorialLayout() {
   return (
-    <>
-      <header className="h-[65px] bg-white px-6">
+    <div className="flex h-full flex-col">
+      <header className="h-[65px] shrink-0 bg-white px-6">
         <nav className="flex h-full">
           <LogoContainer />
           <TitleContainer />
           <UtilityContainer />
         </nav>
       </header>
-      <Outlet />
-    </>
+      <div className="flex-1">
+        <Outlet />
+      </div>
+    </div>
   );
 }
 
@@ -36,7 +38,7 @@ function TitleContainer() {
 function UtilityContainer() {
   return (
     <div className="flex h-full flex-1 items-center justify-end">
-      <Button>홈으로</Button>
+      <Button variant="secondary">홈으로</Button>
     </div>
   );
 }
