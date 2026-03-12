@@ -63,8 +63,12 @@ body {
     #333333 0.01%,
     #585858 100%
   );
+  --omr-card-bg: #fffdf1;
+  --inbrain-blue: #364f8e;
+  --inbrain-light-blue: #5784f1;
+  --marking-unmarked-bg: #a5a4a0;
+  --marking-marked-bg: #090909;
 }
-
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -132,6 +136,11 @@ body {
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --color-omr-card: var(--omr-card-bg);
+  --color-inbrain-blue: var(--inbrain-blue);
+  --color-inbrain-light-blue: var(--inbrain-light-blue);
+  --color-marking-unmarked: var(--marking-unmarked-bg);
+  --color-marking-marked: var(--marking-marked-bg);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -144,6 +153,9 @@ body {
 
 @utility bg-btn-primary {
   background-image: var(--btn-primary-bg);
+}
+@utility dotted-line {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='cornflowerblue' stroke-width='1.5' stroke-dasharray='7' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
 @layer base {

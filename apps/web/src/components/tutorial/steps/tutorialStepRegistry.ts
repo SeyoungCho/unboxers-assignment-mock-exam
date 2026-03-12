@@ -19,7 +19,7 @@ export type TutorialStepControls = {
   goNext: () => void;
   skipTutorial: () => void;
   goToExam: () => void;
-  objectiveAnswers: Partial<Record<number, number>>;
+  objectiveAnswers: Partial<Record<number, number[]>>;
   toggleObjectiveAnswer: (questionNumber: number, answer: number) => void;
   isObjectiveMarkingMissionComplete: boolean;
 };

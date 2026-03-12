@@ -9,12 +9,12 @@ function TutorialPage() {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [objectiveAnswers, setObjectiveAnswers] = useState<
-    Partial<Record<number, number>>
+    Partial<Record<number, number[]>>
   >({
-    16: 2,
+    16: [2],
   });
 
-  const isObjectiveMissionComplete = objectiveAnswers[15] === 3;
+  const isObjectiveMissionComplete = objectiveAnswers[15]?.includes(3) ?? false;
 
   const handlePrevious = () => {
     setCurrentStepIndex((prevStepIndex) => Math.max(prevStepIndex - 1, 0));
@@ -39,16 +39,27 @@ function TutorialPage() {
     answer: number,
   ) => {
     setObjectiveAnswers((prevAnswers) => {
-      if (prevAnswers[questionNumber] === answer) {
+      const currentAnswers = prevAnswers[questionNumber] ?? [];
+      const hasAnswer = currentAnswers.includes(answer);
+
+      if (hasAnswer) {
+        const nextQuestionAnswers = currentAnswers.filter(
+          (currentAnswer) => currentAnswer !== answer,
+        );
         const nextAnswers = { ...prevAnswers };
-        delete nextAnswers[questionNumber];
+
+        if (nextQuestionAnswers.length === 0) {
+          delete nextAnswers[questionNumber];
+        } else {
+          nextAnswers[questionNumber] = nextQuestionAnswers;
+        }
 
         return nextAnswers;
       }
 
       return {
         ...prevAnswers,
-        [questionNumber]: answer,
+        [questionNumber]: [...currentAnswers, answer],
       };
     });
   };
