@@ -538,9 +538,9 @@ function SubjectiveAnswerInputPad({
         </Button>
       </div>
       <Button
-        variant="secondary"
         disabled={!isRowSelected || draftValue.length === 0}
         onClick={onSubmit}
+        className="bg-inbrain-gradient"
       >
         완료
       </Button>
