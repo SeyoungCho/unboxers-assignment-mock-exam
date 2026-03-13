@@ -8,16 +8,13 @@ type TutorialMissionOmrProps = {
   onToggleAnswer: (questionNumber: number, answer: number) => void;
 };
 
-function TutorialMissionOmr({
+function TutorialMissionObjectiveOmr({
   answers,
   onToggleAnswer,
 }: TutorialMissionOmrProps) {
   return (
-    <ObjectiveAnswerSection
-      answers={answers}
-      onToggleAnswer={onToggleAnswer}
-    />
+    <ObjectiveAnswerSection answers={answers} onToggleAnswer={onToggleAnswer} />
   );
 }
 
-export default TutorialMissionOmr;
+export default TutorialMissionObjectiveOmr;

@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 
 import TutorialAutoSubmitNoticeStep from "@/components/tutorial/steps/TutorialAutoSubmitNoticeStep";
 import TutorialObjectiveMarkingMissionStep from "@/components/tutorial/steps/TutorialObjectiveMarkingMissionStep";
+import TutorialSubjectiveMarkingMissionStep from "@/components/tutorial/steps/TutorialSubjectiveMarkingMissionStep";
 import TutorialOmrMarkingGuideStep from "@/components/tutorial/steps/TutorialOmrMarkingGuideStep";
 import TutorialWelcomeStep from "@/components/tutorial/steps/TutorialWelcomeStep";
 
@@ -9,6 +10,7 @@ export const TUTORIAL_STEP_SEQUENCE = [
   "welcome",
   "omr-marking-guide",
   "objective-marking-mission",
+  "subjective-marking-mission",
   "auto-submit-notice",
 ] as const;
 
@@ -32,5 +34,6 @@ export const tutorialStepComponentMap: Record<
   welcome: TutorialWelcomeStep,
   "omr-marking-guide": TutorialOmrMarkingGuideStep,
   "objective-marking-mission": TutorialObjectiveMarkingMissionStep,
+  "subjective-marking-mission": TutorialSubjectiveMarkingMissionStep,
   "auto-submit-notice": TutorialAutoSubmitNoticeStep,
 };

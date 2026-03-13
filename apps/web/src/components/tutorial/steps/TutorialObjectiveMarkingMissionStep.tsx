@@ -1,4 +1,4 @@
-import TutorialMissionOmr from "@/components/tutorial/TutorialMissionOmr";
+import TutorialMissionObjectiveOmr from "@/components/tutorial/TutorialMissionObjectiveOmr";
 import TutorialPanel from "@/components/tutorial/TutorialPanel";
 import TutorialStepLayout from "@/components/tutorial/TutorialStepLayout";
 import {
@@ -63,58 +63,44 @@ function TutorialObjectiveMarkingMissionStep({
       substeps: OBJECTIVE_MISSION_SUBSTEPS,
       context: answersForTarget,
     });
-
   const handleToggleObjectiveAnswer = (
     questionNumber: number,
     answer: number,
   ) => {
-    let nextAnswersForTarget = answersForTarget;
-
     setObjectiveAnswers((prevAnswers) => {
       const currentAnswers = prevAnswers[questionNumber] ?? [];
       const hasAnswer = currentAnswers.includes(answer);
+      let nextQuestionAnswers: number[];
+      const nextAnswers: OmrAnswerMap = { ...prevAnswers };
 
       if (hasAnswer) {
-        const nextQuestionAnswers = currentAnswers.filter(
+        nextQuestionAnswers = currentAnswers.filter(
           (currentAnswer) => currentAnswer !== answer,
         );
-        const nextAnswers = { ...prevAnswers };
 
         if (nextQuestionAnswers.length === 0) {
           delete nextAnswers[questionNumber];
         } else {
           nextAnswers[questionNumber] = nextQuestionAnswers;
         }
-
-        if (questionNumber === TARGET_QUESTION_NUMBER) {
-          nextAnswersForTarget = nextQuestionAnswers;
-        }
-
-        return nextAnswers;
+      } else {
+        nextQuestionAnswers = [...currentAnswers, answer];
+        nextAnswers[questionNumber] = nextQuestionAnswers;
       }
 
-      const nextAnswers = {
-        ...prevAnswers,
-        [questionNumber]: [...currentAnswers, answer],
-      };
-
       if (questionNumber === TARGET_QUESTION_NUMBER) {
-        nextAnswersForTarget = nextAnswers[TARGET_QUESTION_NUMBER] ?? [];
+        syncSubstepProgress(nextQuestionAnswers);
       }
 
       return nextAnswers;
     });
-
-    if (questionNumber === TARGET_QUESTION_NUMBER) {
-      syncSubstepProgress(nextAnswersForTarget);
-    }
   };
 
   return (
     <TutorialStepLayout
       content={
         <div className="flex h-[400px] w-[600px] flex-col justify-end">
-          <TutorialMissionOmr
+          <TutorialMissionObjectiveOmr
             answers={objectiveAnswers}
             onToggleAnswer={handleToggleObjectiveAnswer}
           />
