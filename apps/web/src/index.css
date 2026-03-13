@@ -69,6 +69,7 @@ body {
   --marking-unmarked-bg: #a5a4a0;
   --marking-marked-bg: #090909;
   --inbrain-gradient: linear-gradient(90deg, #364f8e 0%, #5784f1 100%);
+  --red: #f44c47;
 }
 .dark {
   --background: oklch(0.145 0 0);
@@ -143,6 +144,7 @@ body {
   --color-marking-unmarked: var(--marking-unmarked-bg);
   --color-marking-marked: var(--marking-marked-bg);
   --color-inbrain-gradient: var(--inbrain-gradient);
+  --color-red: var(--red);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
