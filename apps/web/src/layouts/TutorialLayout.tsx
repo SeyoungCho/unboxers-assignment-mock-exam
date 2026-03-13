@@ -5,14 +5,14 @@ import { Outlet } from "react-router-dom";
 function TutorialLayout() {
   return (
     <div className="flex h-full flex-col">
-      <header className="h-[65px] shrink-0 bg-white px-6">
+      <header className="h-nav relative z-50 shrink-0 bg-white px-6">
         <nav className="flex h-full">
           <LogoContainer />
           <TitleContainer />
           <UtilityContainer />
         </nav>
       </header>
-      <div className="flex-1">
+      <div className="h-[calc(100dvh-var(--spacing-nav))]">
         <Outlet />
       </div>
     </div>

@@ -9,19 +9,23 @@ function TutorialObjectiveMarkingMissionStep({
   return (
     <TutorialStepLayout
       content={
-        <TutorialMissionOmr
-          answers={controls.objectiveAnswers}
-          onToggleAnswer={controls.toggleObjectiveAnswer}
-        />
+        <div className="h-[400px] w-[600px]">
+          <div className="-translate-y-1/2">
+            <TutorialMissionOmr
+              answers={controls.objectiveAnswers}
+              onToggleAnswer={controls.toggleObjectiveAnswer}
+            />
+          </div>
+        </div>
       }
       description={
         <>
           객관식 답안은 화면을 터치해서 마킹해요
           <br />
-          <span className="font-bold text-[#3568ff]">
-            15번 문제에 3번으로 답안을 마킹
-          </span>
-          해보세요
+          <span className="text-inbrain-light-blue font-bold">15번 문제</span>
+          에&nbsp;
+          <span className="text-inbrain-light-blue font-bold">3번</span>으로
+          답안을 마킹 해보세요
         </>
       }
       panel={

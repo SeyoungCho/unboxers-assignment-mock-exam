@@ -42,7 +42,7 @@ type OmrCardBubbleProps = Omit<ComponentProps<"button">, "children"> & {
   children?: ReactNode;
 };
 type OmrCardFooterProps = ComponentProps<"div"> & {
-  markerCount?: number;
+  children?: ReactNode;
 };
 type ObjectiveAnswerSectionProps = {
   answers?: OmrAnswerMap;
@@ -314,24 +314,10 @@ function OmrCardBubble({
   );
 }
 
-function OmrCardFooter({
-  className,
-  markerCount = 15,
-  ...props
-}: OmrCardFooterProps) {
+function OmrCardFooter({ className, children, ...props }: OmrCardFooterProps) {
   return (
-    <div
-      data-slot="omr-card-footer"
-      className={cn("flex items-center justify-between gap-8 px-8", className)}
-      {...props}
-    >
-      {Array.from({ length: markerCount }).map((_, index) => (
-        <div
-          key={index}
-          data-slot="omr-card-footer-marker"
-          className="bg-marking-marked h-6 w-2"
-        />
-      ))}
+    <div data-slot="omr-card-footer" className={cn("", className)} {...props}>
+      {children}
     </div>
   );
 }
@@ -348,6 +334,8 @@ export const OmrCard = Object.assign(OmrCardRoot, {
   BubbleRow: OmrCardBubbleRow,
   Bubble: OmrCardBubble,
   Footer: OmrCardFooter,
+  FooterMarker: OmrCardFooterMarker,
+  FooterMarkerContainer: OmrCardFooterMarkerContainer,
 });
 
 export function ObjectiveAnswerSection({
@@ -372,7 +360,29 @@ export function ObjectiveAnswerSection({
           />
         ))}
       </OmrCard.Body>
-      <OmrCard.Footer />
+      <OmrCard.Footer className="flex w-full">
+        <OmrCard.FooterMarkerContainer className="w-[170px]">
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+        </OmrCard.FooterMarkerContainer>
+        <OmrCard.FooterMarkerContainer className="w-[184px]">
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+        </OmrCard.FooterMarkerContainer>
+        <OmrCard.FooterMarkerContainer className="w-[184px]">
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+          <OmrCard.FooterMarker />
+        </OmrCard.FooterMarkerContainer>
+      </OmrCard.Footer>
     </OmrCard>
   );
 }
@@ -450,5 +460,28 @@ function ObjectiveAnswerRow({ questionNumber }: { questionNumber: number }) {
         />
       ))}
     </OmrCard.BubbleRow>
+  );
+}
+
+function OmrCardFooterMarker({ className, ...props }: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="omr-card-footer-marker"
+      className={cn("bg-marking-marked h-6 w-2", className)}
+      {...props}
+    />
+  );
+}
+
+function OmrCardFooterMarkerContainer({
+  className,
+  ...props
+}: ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="omr-card-footer-marker-container"
+      className={cn("flex justify-end gap-5.5 pt-0.5", className)}
+      {...props}
+    />
   );
 }

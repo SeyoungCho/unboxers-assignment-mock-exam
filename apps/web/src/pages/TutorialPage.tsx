@@ -68,7 +68,7 @@ function TutorialPage() {
   const CurrentStepComponent = tutorialStepComponentMap[currentStepId];
 
   return (
-    <div className="mx-auto h-full max-w-[1200px]">
+    <div className="mx-auto h-full max-w-[1200px] py-20">
       <CurrentStepComponent
         controls={{
           goPrevious: handlePrevious,
