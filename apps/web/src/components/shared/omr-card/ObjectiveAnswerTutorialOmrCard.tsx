@@ -98,8 +98,12 @@ export function ObjectiveAnswerTutorialOmrCard({
       className={className}
       onToggleAnswer={onToggleAnswer}
     >
-      <OmrCard.Header />
-      <OmrCard.Body>
+      <OmrCard.SectionHeader>
+        <OmrCard.SectionHeaderTitle>
+          객&nbsp;&nbsp;&nbsp;관&nbsp;&nbsp;&nbsp;식&nbsp;&nbsp;&nbsp;답&nbsp;&nbsp;&nbsp;안
+        </OmrCard.SectionHeaderTitle>
+      </OmrCard.SectionHeader>
+      <OmrCard.SectionBody>
         {groups.map((group, index) => (
           <ObjectiveAnswerGroup
             key={group.start}
@@ -107,7 +111,7 @@ export function ObjectiveAnswerTutorialOmrCard({
             withLeftBorder={index === 0}
           />
         ))}
-      </OmrCard.Body>
+      </OmrCard.SectionBody>
       <OmrCard.Footer className="flex w-full">
         <OmrCard.FooterMarkerContainer className="w-[170px]">
           <OmrCard.FooterMarker />

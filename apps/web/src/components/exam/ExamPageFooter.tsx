@@ -10,6 +10,10 @@ const EXAM_DURATION_MS = EXAM_DURATION_SECONDS * 1000;
 
 type ExamTimerPhase = "prep" | "exam" | "finished";
 
+type ExamPageFooterProps = {
+  onExamTimeEnd?: () => void;
+};
+
 function formatRemainingSeconds(seconds: number) {
   if (seconds < 60) {
     return `${seconds}초`;
@@ -25,7 +29,7 @@ function formatRemainingSeconds(seconds: number) {
   return `${minutes}분 ${remainingSeconds}초`;
 }
 
-function ExamPageFooter() {
+function ExamPageFooter({ onExamTimeEnd }: ExamPageFooterProps) {
   const [phase, setPhase] = useState<ExamTimerPhase>("prep");
   const [phaseStartedAt, setPhaseStartedAt] = useState(() => Date.now());
   const [now, setNow] = useState(() => Date.now());
@@ -51,6 +55,7 @@ function ExamPageFooter() {
           return;
         }
 
+        onExamTimeEnd?.();
         setPhase("finished");
         setNow(phaseStartedAt + phaseDurationMs);
         return;
@@ -63,7 +68,7 @@ function ExamPageFooter() {
     frameId = window.requestAnimationFrame(tick);
 
     return () => window.cancelAnimationFrame(frameId);
-  }, [phase, phaseStartedAt]);
+  }, [onExamTimeEnd, phase, phaseStartedAt]);
 
   const totalDurationMs = phase === "prep" ? PREP_DURATION_MS : EXAM_DURATION_MS;
   const elapsedMs =

@@ -27,9 +27,10 @@ type OmrCardRootProps = ComponentProps<"div"> & {
 };
 
 type OmrCardContainerProps = ComponentProps<"div">;
-type OmrCardHeaderProps = ComponentProps<"div"> & {
-  title?: ReactNode;
-};
+type OmrCardBodyProps = ComponentProps<"div">;
+type OmrCardSectionHeaderProps = ComponentProps<"div">;
+type OmrCardSectionHeaderTitleProps = ComponentProps<"h2">;
+type OmrCardSectionBodyProps = ComponentProps<"div">;
 type OmrCardIndexColumnProps = ComponentProps<"div"> & {
   withLeftBorder?: boolean;
 };
@@ -41,9 +42,20 @@ type OmrCardBubbleProps = Omit<ComponentProps<"button">, "children"> & {
   answer: number;
   children?: ReactNode;
 };
+type OmrCardMarkerBubbleProps = Omit<ComponentProps<"button">, "children"> & {
+  pressed?: boolean;
+  value: number | string;
+  children?: ReactNode;
+};
 type OmrCardFooterProps = ComponentProps<"div"> & {
   children?: ReactNode;
 };
+type OmrCardGroupProps = ComponentProps<"div">;
+type OmrCardIndexCellProps = ComponentProps<"div">;
+type OmrCardAnswerColumnProps = ComponentProps<"div">;
+type OmrCardBubbleRowProps = ComponentProps<"div">;
+type OmrCardFooterMarkerProps = ComponentProps<"div">;
+type OmrCardFooterMarkerContainerProps = ComponentProps<"div">;
 
 export const DEFAULT_OBJECTIVE_ANSWER_GROUPS: OmrQuestionGroupConfig[] = [
   { start: 1, end: 10, dividerAfter: 5, tintBottom: true },
@@ -72,7 +84,7 @@ export function OmrCardContainer({
     <div
       data-slot="omr-card-container"
       className={cn(
-        "bg-omr-card inline-flex flex-col items-center justify-center rounded-[32px] px-6 pt-4 pb-1 shadow-[0px_4px_16px_0px_rgba(0,0,0,0.15)]",
+        "bg-omr-card shadow-default inline-flex flex-col items-center justify-center rounded-[32px] px-6 pt-4 pb-1",
         className,
       )}
       {...props}
@@ -98,34 +110,58 @@ function OmrCardRoot({
   );
 }
 
-function OmrCardHeader({
-  className,
-  title = "객   관   식   답   안",
-  ...props
-}: OmrCardHeaderProps) {
+function OmrCardBody({ className, children, ...props }: OmrCardBodyProps) {
   return (
     <div
-      data-slot="omr-card-header"
+      data-slot="omr-card-body"
+      className={cn("flex w-full", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function OmrCardSectionHeader({
+  className,
+  ...props
+}: OmrCardSectionHeaderProps) {
+  return (
+    <div
+      data-slot="omr-card-section-header"
       className={cn(
         "border-inbrain-light-blue flex h-10 items-center justify-center self-stretch border-[1.5px] py-1.5",
         className,
       )}
       {...props}
-    >
-      <div
-        data-slot="omr-card-header-title"
-        className="text-inbrain-blue text-center text-2xl font-semibold"
-      >
-        {title}
-      </div>
-    </div>
+    />
   );
 }
 
-function OmrCardBody({ className, children, ...props }: ComponentProps<"div">) {
+function OmrCardSectionHeaderTitle({
+  className,
+  ...props
+}: OmrCardSectionHeaderTitleProps) {
+  return (
+    <h2
+      data-slot="omr-card-section-header-title"
+      className={cn(
+        "text-inbrain-blue text-center text-2xl font-semibold",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function OmrCardSectionBody({
+  className,
+  children,
+  ...props
+}: OmrCardSectionBodyProps) {
   return (
     <div
-      data-slot="omr-card-body"
+      data-slot="omr-card-section-body"
       className={cn("inline-flex items-center justify-start", className)}
       {...props}
     >
@@ -134,11 +170,7 @@ function OmrCardBody({ className, children, ...props }: ComponentProps<"div">) {
   );
 }
 
-function OmrCardGroup({
-  className,
-  children,
-  ...props
-}: ComponentProps<"div">) {
+function OmrCardGroup({ className, children, ...props }: OmrCardGroupProps) {
   return (
     <div
       data-slot="omr-card-group"
@@ -175,7 +207,7 @@ function OmrCardIndexCell({
   className,
   children,
   ...props
-}: ComponentProps<"div">) {
+}: OmrCardIndexCellProps) {
   return (
     <div
       data-slot="omr-card-index-cell"
@@ -199,7 +231,7 @@ function OmrCardAnswerColumn({
   className,
   children,
   ...props
-}: ComponentProps<"div">) {
+}: OmrCardAnswerColumnProps) {
   return (
     <div
       data-slot="omr-card-answer-column"
@@ -251,7 +283,7 @@ function OmrCardBubbleRow({
   className,
   children,
   ...props
-}: ComponentProps<"div">) {
+}: OmrCardBubbleRowProps) {
   return (
     <div
       data-slot="omr-card-bubble-row"
@@ -306,6 +338,31 @@ function OmrCardBubble({
   );
 }
 
+function OmrCardMarkerBubble({
+  className,
+  children,
+  pressed = false,
+  value,
+  type = "button",
+  ...props
+}: OmrCardMarkerBubbleProps) {
+  return (
+    <button
+      aria-pressed={pressed}
+      data-slot="omr-card-marker-bubble"
+      className={cn(
+        "flex h-11 w-5 items-center justify-center gap-2.5 rounded-[20px] px-2 py-2.5 text-xs leading-4 font-bold text-white transition-colors cursor-pointer",
+        pressed ? "bg-marking-marked" : "bg-marking-unmarked",
+        className,
+      )}
+      type={type}
+      {...props}
+    >
+      {children ?? value}
+    </button>
+  );
+}
+
 function OmrCardFooter({ className, children, ...props }: OmrCardFooterProps) {
   return (
     <div data-slot="omr-card-footer" className={cn("", className)} {...props}>
@@ -314,7 +371,10 @@ function OmrCardFooter({ className, children, ...props }: OmrCardFooterProps) {
   );
 }
 
-function OmrCardFooterMarker({ className, ...props }: ComponentProps<"div">) {
+function OmrCardFooterMarker({
+  className,
+  ...props
+}: OmrCardFooterMarkerProps) {
   return (
     <div
       data-slot="omr-card-footer-marker"
@@ -327,7 +387,7 @@ function OmrCardFooterMarker({ className, ...props }: ComponentProps<"div">) {
 function OmrCardFooterMarkerContainer({
   className,
   ...props
-}: ComponentProps<"div">) {
+}: OmrCardFooterMarkerContainerProps) {
   return (
     <div
       data-slot="omr-card-footer-marker-container"
@@ -338,8 +398,10 @@ function OmrCardFooterMarkerContainer({
 }
 
 export const OmrCard = Object.assign(OmrCardRoot, {
-  Header: OmrCardHeader,
   Body: OmrCardBody,
+  SectionHeader: OmrCardSectionHeader,
+  SectionHeaderTitle: OmrCardSectionHeaderTitle,
+  SectionBody: OmrCardSectionBody,
   Group: OmrCardGroup,
   IndexColumn: OmrCardIndexColumn,
   IndexCell: OmrCardIndexCell,
@@ -348,6 +410,7 @@ export const OmrCard = Object.assign(OmrCardRoot, {
   Divider: OmrCardDivider,
   BubbleRow: OmrCardBubbleRow,
   Bubble: OmrCardBubble,
+  MarkerBubble: OmrCardMarkerBubble,
   Footer: OmrCardFooter,
   FooterMarker: OmrCardFooterMarker,
   FooterMarkerContainer: OmrCardFooterMarkerContainer,
