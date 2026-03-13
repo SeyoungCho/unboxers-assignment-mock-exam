@@ -17,10 +17,10 @@ const gradeAnswersSchema = z.object({
       z.object({
         answerType: z.nativeEnum(AnswerType),
         number: z.number().int().positive(),
-        answer: z.number().int()
+        answer: z.number().int(),
       })
     )
-    .min(1)
+    .min(1),
 });
 
 function buildGradeResponse(
@@ -63,7 +63,7 @@ function buildGradeResponse(
       return {
         answerType: question.answerType,
         number: question.number,
-        result: GRADE_RESULT.UNANSWERED
+        result: GRADE_RESULT.UNANSWERED,
       };
     }
 
@@ -73,7 +73,7 @@ function buildGradeResponse(
       return {
         answerType: question.answerType,
         number: question.number,
-        result: GRADE_RESULT.CORRECT
+        result: GRADE_RESULT.CORRECT,
       };
     }
 
@@ -81,7 +81,7 @@ function buildGradeResponse(
     return {
       answerType: question.answerType,
       number: question.number,
-      result: GRADE_RESULT.WRONG
+      result: GRADE_RESULT.WRONG,
     };
   });
 
@@ -91,7 +91,7 @@ function buildGradeResponse(
     correctCount,
     wrongCount,
     unansweredCount,
-    results
+    results,
   };
 }
 
@@ -102,17 +102,19 @@ export const examsRoute: FastifyPluginAsync = async (app) => {
         questions: {
           orderBy: [
             {
-              answerType: "asc"
+              answerType: "asc",
             },
             {
-              number: "asc"
-            }
+              number: "asc",
+            },
           ],
           select: {
-            score: true
-          }
-        }
-      }
+            answerType: true,
+            number: true,
+            score: true,
+          },
+        },
+      },
     });
 
     if (!exam) {
@@ -124,16 +126,14 @@ export const examsRoute: FastifyPluginAsync = async (app) => {
       0
     );
 
-    return successResponse(
-      "Exam retrieved successfully",
-      {
-        title: exam.title,
-        description: exam.description,
-        supervisorName: exam.supervisorName,
-        totalQuestions: exam.questions.length,
-        totalScore
-      }
-    );
+    return successResponse("Exam retrieved successfully", {
+      title: exam.title,
+      description: exam.description,
+      supervisorName: exam.supervisorName,
+      totalQuestions: exam.questions.length,
+      questions: exam.questions,
+      totalScore,
+    });
   });
 
   app.post<{
@@ -144,7 +144,7 @@ export const examsRoute: FastifyPluginAsync = async (app) => {
     if (!payload.success) {
       return reply.code(400).send({
         ...errorResponse("Invalid request"),
-        issues: payload.error.flatten()
+        issues: payload.error.flatten(),
       });
     }
 
@@ -153,20 +153,20 @@ export const examsRoute: FastifyPluginAsync = async (app) => {
         questions: {
           orderBy: [
             {
-              answerType: "asc"
+              answerType: "asc",
             },
             {
-              number: "asc"
-            }
+              number: "asc",
+            },
           ],
           select: {
             answerType: true,
             number: true,
             correctAnswer: true,
-            score: true
-          }
-        }
-      }
+            score: true,
+          },
+        },
+      },
     });
 
     if (!exam) {
