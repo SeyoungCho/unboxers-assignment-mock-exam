@@ -8,13 +8,6 @@ import { useNavigate } from "react-router-dom";
 function TutorialPage() {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [objectiveAnswers, setObjectiveAnswers] = useState<
-    Partial<Record<number, number[]>>
-  >({
-    16: [2],
-  });
-
-  const isObjectiveMissionComplete = objectiveAnswers[15]?.includes(3) ?? false;
 
   const handlePrevious = () => {
     setCurrentStepIndex((prevStepIndex) => Math.max(prevStepIndex - 1, 0));
@@ -34,36 +27,6 @@ function TutorialPage() {
     navigate("/exam");
   };
 
-  const handleToggleObjectiveAnswer = (
-    questionNumber: number,
-    answer: number,
-  ) => {
-    setObjectiveAnswers((prevAnswers) => {
-      const currentAnswers = prevAnswers[questionNumber] ?? [];
-      const hasAnswer = currentAnswers.includes(answer);
-
-      if (hasAnswer) {
-        const nextQuestionAnswers = currentAnswers.filter(
-          (currentAnswer) => currentAnswer !== answer,
-        );
-        const nextAnswers = { ...prevAnswers };
-
-        if (nextQuestionAnswers.length === 0) {
-          delete nextAnswers[questionNumber];
-        } else {
-          nextAnswers[questionNumber] = nextQuestionAnswers;
-        }
-
-        return nextAnswers;
-      }
-
-      return {
-        ...prevAnswers,
-        [questionNumber]: [...currentAnswers, answer],
-      };
-    });
-  };
-
   const currentStepId = TUTORIAL_STEP_SEQUENCE[currentStepIndex];
   const CurrentStepComponent = tutorialStepComponentMap[currentStepId];
 
@@ -75,9 +38,6 @@ function TutorialPage() {
           goNext: handleNext,
           skipTutorial: handleSkip,
           goToExam: handleGoToExam,
-          objectiveAnswers,
-          toggleObjectiveAnswer: handleToggleObjectiveAnswer,
-          isObjectiveMarkingMissionComplete: isObjectiveMissionComplete,
         }}
       />
     </div>
