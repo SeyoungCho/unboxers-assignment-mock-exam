@@ -11,7 +11,6 @@ type HelpButtonState = "idle" | "loading" | "success";
 
 const SUCCESS_DURATION_MS = 1500;
 
-// TODO: replace with real API call later
 async function requestTeacherHelp() {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 }

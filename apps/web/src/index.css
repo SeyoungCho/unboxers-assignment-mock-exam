@@ -57,7 +57,7 @@ body {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --default-shadow: 0 8px 16px 6px rgb(0 0 0 / 6%);
-  --btn-primary-bg: linear-gradient(
+  --black-gradient: linear-gradient(
     90deg,
     #333333 0%,
     #333333 0.01%,
@@ -150,6 +150,7 @@ body {
   --color-marking-unmarked: var(--marking-unmarked-bg);
   --color-marking-marked: var(--marking-marked-bg);
   --color-inbrain-gradient: var(--inbrain-gradient);
+  --color-black-gradient: var(--black-gradient);
   --color-red: var(--red);
   --color-gs1: var(--gs1);
   --color-gs2: var(--gs2);
@@ -171,7 +172,18 @@ body {
 }
 
 @utility bg-btn-primary {
-  background-image: var(--btn-primary-bg);
+  background-image: var(--black-gradient);
+}
+
+@utility bg-black-gradient {
+  background-image: var(--black-gradient);
+}
+
+@utility text-black-gradient {
+  background-image: var(--black-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 @utility bg-inbrain-gradient {
