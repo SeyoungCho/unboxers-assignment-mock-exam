@@ -1,7 +1,5 @@
-import {
-  ObjectiveAnswerSection,
-  type OmrAnswerMap,
-} from "@/components/shared/OmrCard";
+import type { OmrAnswerMap } from "@/components/shared/omr-card/OmrCard";
+import { ObjectiveAnswerTutorialOmrCard } from "@/components/shared/omr-card/ObjectiveAnswerTutorialOmrCard";
 
 type TutorialMissionOmrProps = {
   answers: OmrAnswerMap;
@@ -13,7 +11,10 @@ function TutorialMissionObjectiveOmr({
   onToggleAnswer,
 }: TutorialMissionOmrProps) {
   return (
-    <ObjectiveAnswerSection answers={answers} onToggleAnswer={onToggleAnswer} />
+    <ObjectiveAnswerTutorialOmrCard
+      answers={answers}
+      onToggleAnswer={onToggleAnswer}
+    />
   );
 }
 

@@ -1,6 +1,4 @@
-import {
-  SubjectiveAnswerSection,
-} from "@/components/shared/OmrCard";
+import { SubjectiveAnswerTutorialOmrCard } from "@/components/shared/omr-card/SubjectiveAnswerTutorialOmrCard";
 
 type TutorialMissionSubjectiveOmrProps = {
   targetQuestionIndex: number;
@@ -14,7 +12,7 @@ function TutorialMissionSubjectiveOmr({
   onSubmitAnswer,
 }: TutorialMissionSubjectiveOmrProps) {
   return (
-    <SubjectiveAnswerSection
+    <SubjectiveAnswerTutorialOmrCard
       targetQuestionIndex={targetQuestionIndex}
       onSelectQuestion={onSelectQuestion}
       onSubmitAnswer={onSubmitAnswer}

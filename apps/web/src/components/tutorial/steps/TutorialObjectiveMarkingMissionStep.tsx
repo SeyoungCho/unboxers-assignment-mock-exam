@@ -5,7 +5,7 @@ import {
   useTutorialSubsteps,
   type TutorialSubstepConfig,
 } from "@/hooks/tutorial/useTutorialSubsteps";
-import type { OmrAnswerMap } from "@/components/shared/OmrCard";
+import type { OmrAnswerMap } from "@/components/shared/omr-card/OmrCard";
 import type { TutorialStepComponentProps } from "@/components/tutorial/steps/tutorialStepRegistry";
 import { useState } from "react";
 
