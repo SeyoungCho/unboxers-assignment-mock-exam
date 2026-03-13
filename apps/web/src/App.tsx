@@ -4,21 +4,24 @@ import TutorialLayout from "@/layouts/TutorialLayout";
 import ExamPage from "@/pages/ExamPage";
 import ResultsPage from "@/pages/ResultsPage";
 import TutorialPage from "@/pages/TutorialPage";
+import QueryClientProvider from "@/components/shared/providers/QueryClientProvider";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<RootLayout />}>
-          <Route path="/" element={<Navigate to="/tutorial" replace />} />
-          <Route element={<TutorialLayout />}>
-            <Route path="/tutorial" element={<TutorialPage />} />
+    <QueryClientProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<RootLayout />}>
+            <Route path="/" element={<Navigate to="/tutorial" replace />} />
+            <Route element={<TutorialLayout />}>
+              <Route path="/tutorial" element={<TutorialPage />} />
+            </Route>
+            <Route path="/exam" element={<ExamPage />} />
+            <Route path="/results" element={<ResultsPage />} />
           </Route>
-          <Route path="/exam" element={<ExamPage />} />
-          <Route path="/results" element={<ResultsPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
