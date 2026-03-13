@@ -70,6 +70,12 @@ body {
   --marking-marked-bg: #090909;
   --inbrain-gradient: linear-gradient(90deg, #364f8e 0%, #5784f1 100%);
   --red: #f44c47;
+  --gs1: #090909;
+  --gs2: #858585;
+  --gs3: #b6b6b6;
+  --gs4: #bdbcb8;
+  --gs5: #a5a4a0;
+  --gs7: #676663;
 }
 .dark {
   --background: oklch(0.145 0 0);
@@ -145,6 +151,12 @@ body {
   --color-marking-marked: var(--marking-marked-bg);
   --color-inbrain-gradient: var(--inbrain-gradient);
   --color-red: var(--red);
+  --color-gs1: var(--gs1);
+  --color-gs2: var(--gs2);
+  --color-gs3: var(--gs3);
+  --color-gs4: var(--gs4);
+  --color-gs5: var(--gs5);
+  --color-gs7: var(--gs7);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

@@ -436,7 +436,7 @@ function SubjectiveAnswerRow({
         placeholder={placeholder}
         readOnly
         className={cn(
-          "answer-section flex w-full items-center justify-center text-center text-[17px] font-semibold text-[#090909] placeholder:text-[#BDBCB8]",
+          "answer-section placeholder:text-gs4 text-gs1 flex w-full items-center justify-center text-center text-[17px] font-semibold",
           isSelected &&
             "outline-inbrain-light-blue bg-white outline-2 outline-offset-2",
           isTargetQuestion &&
@@ -498,11 +498,10 @@ function SubjectiveAnswerInputPad({
             className={cn(
               "text-center",
               {
-                "text-[#090909]":
-                  draftValue.length > 0 || selectedIndex === null,
+                "text-gs1": draftValue.length > 0 || selectedIndex === null,
               },
               {
-                "text-[#BDBCB8]": !isRowSelected || draftValue.length === 0,
+                "text-gs4": !isRowSelected || draftValue.length === 0,
               },
             )}
           >
@@ -622,7 +621,7 @@ export function SubjectiveAnswerSection({
           </OmrCard.Group>
         </OmrCard.Body>
         <OmrCard.Footer className="flex h-[26px] w-full items-center justify-center">
-          <span className="pt-px text-[17px] leading-[20px] font-semibold text-[#858585]">
+          <span className="text-gs2 pt-px text-[17px] leading-[20px] font-semibold">
             주관식 입력 부분입니다.
           </span>
         </OmrCard.Footer>
