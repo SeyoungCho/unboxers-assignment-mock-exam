@@ -1,6 +1,10 @@
 import TutorialMissionOmr from "@/components/tutorial/TutorialMissionOmr";
 import TutorialPanel from "@/components/tutorial/TutorialPanel";
 import TutorialStepLayout from "@/components/tutorial/TutorialStepLayout";
+import {
+  useTutorialSubsteps,
+  type TutorialSubstepConfig,
+} from "@/hooks/tutorial/useTutorialSubsteps";
 import type { OmrAnswerMap } from "@/components/shared/OmrCard";
 import type { TutorialStepComponentProps } from "@/components/tutorial/steps/tutorialStepRegistry";
 import { useState } from "react";
@@ -8,20 +12,64 @@ import { useState } from "react";
 const TARGET_QUESTION_NUMBER = 15;
 const TARGET_ANSWER = 3;
 
+function isMarkedOnlyTargetAnswer(answers: number[]) {
+  return answers.length === 1 && answers[0] === TARGET_ANSWER;
+}
+
+const OBJECTIVE_MISSION_SUBSTEPS = [
+  {
+    description: (
+      <>
+        객관식 답안은 화면을 터치해서 마킹해요
+        <br />
+        <span className="text-inbrain-light-blue font-bold">15번 문제</span>
+        에&nbsp;
+        <span className="text-inbrain-light-blue font-bold">3번</span>으로
+        답안을 마킹 해보세요
+      </>
+    ),
+    isComplete: isMarkedOnlyTargetAnswer,
+  },
+  {
+    description: (
+      <>
+        마킹한 곳을 한 번 더 터치하면 지울 수 있어요
+        <br />
+        <span className="text-inbrain-light-blue font-bold">15번 문제</span>
+        에&nbsp;
+        <span className="text-inbrain-light-blue font-bold">3번</span> 답안을
+        지워보세요
+      </>
+    ),
+    isComplete: (answers) => answers.length === 0,
+  },
+  {
+    description: (
+      <>
+        2개 이상의 답안을 골라야 하는 문제에서는
+        <br />두 답안 모두 마킹하면 돼요
+      </>
+    ),
+  },
+] satisfies readonly TutorialSubstepConfig<number[]>[];
+
 function TutorialObjectiveMarkingMissionStep({
   controls,
 }: TutorialStepComponentProps) {
-  const [objectiveAnswers, setObjectiveAnswers] = useState<OmrAnswerMap>({
-    16: [2],
-  });
-
-  const isMissionComplete =
-    objectiveAnswers[TARGET_QUESTION_NUMBER]?.includes(TARGET_ANSWER) ?? false;
+  const [objectiveAnswers, setObjectiveAnswers] = useState<OmrAnswerMap>({});
+  const answersForTarget = objectiveAnswers[TARGET_QUESTION_NUMBER] ?? [];
+  const { currentDescription, isMissionComplete, syncSubstepProgress } =
+    useTutorialSubsteps({
+      substeps: OBJECTIVE_MISSION_SUBSTEPS,
+      context: answersForTarget,
+    });
 
   const handleToggleObjectiveAnswer = (
     questionNumber: number,
     answer: number,
   ) => {
+    let nextAnswersForTarget = answersForTarget;
+
     setObjectiveAnswers((prevAnswers) => {
       const currentAnswers = prevAnswers[questionNumber] ?? [];
       const hasAnswer = currentAnswers.includes(answer);
@@ -38,14 +86,28 @@ function TutorialObjectiveMarkingMissionStep({
           nextAnswers[questionNumber] = nextQuestionAnswers;
         }
 
+        if (questionNumber === TARGET_QUESTION_NUMBER) {
+          nextAnswersForTarget = nextQuestionAnswers;
+        }
+
         return nextAnswers;
       }
 
-      return {
+      const nextAnswers = {
         ...prevAnswers,
         [questionNumber]: [...currentAnswers, answer],
       };
+
+      if (questionNumber === TARGET_QUESTION_NUMBER) {
+        nextAnswersForTarget = nextAnswers[TARGET_QUESTION_NUMBER] ?? [];
+      }
+
+      return nextAnswers;
     });
+
+    if (questionNumber === TARGET_QUESTION_NUMBER) {
+      syncSubstepProgress(nextAnswersForTarget);
+    }
   };
 
   return (
@@ -58,16 +120,7 @@ function TutorialObjectiveMarkingMissionStep({
           />
         </div>
       }
-      description={
-        <>
-          객관식 답안은 화면을 터치해서 마킹해요
-          <br />
-          <span className="text-inbrain-light-blue font-bold">15번 문제</span>
-          에&nbsp;
-          <span className="text-inbrain-light-blue font-bold">3번</span>으로
-          답안을 마킹 해보세요
-        </>
-      }
+      description={currentDescription}
       panel={
         <TutorialPanel
           variant="middle"
