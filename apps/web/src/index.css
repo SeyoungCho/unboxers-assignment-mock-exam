@@ -56,7 +56,7 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --btn-shadow: 0 8px 16px 6px rgb(0 0 0 / 6%);
+  --default-shadow: 0 8px 16px 6px rgb(0 0 0 / 6%);
   --btn-primary-bg: linear-gradient(
     90deg,
     #333333 0%,
@@ -164,8 +164,10 @@ body {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --shadow-btn: var(--btn-shadow);
+  --shadow-btn: var(--default-shadow);
+  --shadow-default: var(--default-shadow);
   --spacing-nav: 65px;
+  --spacing-exam-panel: 161px;
 }
 
 @utility bg-btn-primary {

@@ -314,22 +314,6 @@ function OmrCardFooter({ className, children, ...props }: OmrCardFooterProps) {
   );
 }
 
-export const OmrCard = Object.assign(OmrCardRoot, {
-  Header: OmrCardHeader,
-  Body: OmrCardBody,
-  Group: OmrCardGroup,
-  IndexColumn: OmrCardIndexColumn,
-  IndexCell: OmrCardIndexCell,
-  AnswerColumn: OmrCardAnswerColumn,
-  AnswerSection: OmrCardAnswerSection,
-  Divider: OmrCardDivider,
-  BubbleRow: OmrCardBubbleRow,
-  Bubble: OmrCardBubble,
-  Footer: OmrCardFooter,
-  FooterMarker: OmrCardFooterMarker,
-  FooterMarkerContainer: OmrCardFooterMarkerContainer,
-});
-
 function OmrCardFooterMarker({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
@@ -352,3 +336,19 @@ function OmrCardFooterMarkerContainer({
     />
   );
 }
+
+export const OmrCard = Object.assign(OmrCardRoot, {
+  Header: OmrCardHeader,
+  Body: OmrCardBody,
+  Group: OmrCardGroup,
+  IndexColumn: OmrCardIndexColumn,
+  IndexCell: OmrCardIndexCell,
+  AnswerColumn: OmrCardAnswerColumn,
+  AnswerSection: OmrCardAnswerSection,
+  Divider: OmrCardDivider,
+  BubbleRow: OmrCardBubbleRow,
+  Bubble: OmrCardBubble,
+  Footer: OmrCardFooter,
+  FooterMarker: OmrCardFooterMarker,
+  FooterMarkerContainer: OmrCardFooterMarkerContainer,
+});
