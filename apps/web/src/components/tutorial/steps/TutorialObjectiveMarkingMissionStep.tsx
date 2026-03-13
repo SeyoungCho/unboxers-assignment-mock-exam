@@ -9,13 +9,11 @@ function TutorialObjectiveMarkingMissionStep({
   return (
     <TutorialStepLayout
       content={
-        <div className="h-[400px] w-[600px]">
-          <div className="-translate-y-1/2">
-            <TutorialMissionOmr
-              answers={controls.objectiveAnswers}
-              onToggleAnswer={controls.toggleObjectiveAnswer}
-            />
-          </div>
+        <div className="flex h-[400px] w-[600px] flex-col justify-end">
+          <TutorialMissionOmr
+            answers={controls.objectiveAnswers}
+            onToggleAnswer={controls.toggleObjectiveAnswer}
+          />
         </div>
       }
       description={

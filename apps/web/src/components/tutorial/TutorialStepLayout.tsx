@@ -18,7 +18,7 @@ function TutorialStepLayout({
   isMissionComplete = false,
 }: TutorialStepLayoutProps) {
   return (
-    <section className="flex h-full flex-col">
+    <section className="flex h-full flex-col justify-end">
       <div className="flex flex-1 flex-col justify-between gap-12">
         <div className="flex flex-1 flex-col items-center justify-center gap-12">
           {content}
