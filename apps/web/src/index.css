@@ -69,6 +69,12 @@ body {
   --marking-unmarked-bg: #a5a4a0;
   --marking-marked-bg: #090909;
   --inbrain-gradient: linear-gradient(90deg, #364f8e 0%, #5784f1 100%);
+  --scanner-gradient: linear-gradient(
+    270deg,
+    rgba(255, 0, 0, 0) 0%,
+    rgba(255, 0, 0, 0.7) 49.04%,
+    rgba(255, 0, 0, 0) 100%
+  );
   --red: #f44c47;
   --gs1: #090909;
   --gs2: #858585;
@@ -188,6 +194,24 @@ body {
 
 @utility bg-inbrain-gradient {
   background-image: var(--inbrain-gradient);
+}
+
+@utility bg-scanner-gradient {
+  background-image: var(--scanner-gradient);
+}
+
+@keyframes scanner-sweep {
+  0%,
+  100% {
+    left: 1rem;
+  }
+  50% {
+    left: calc(100% - 50px - 1rem);
+  }
+}
+
+.animate-scanner-sweep {
+  animation: scanner-sweep 4s ease-in-out infinite;
 }
 
 @utility dotted-line {

@@ -6,6 +6,7 @@ import type { ExamResponseDto } from "@/types";
 
 type ExamOmrCardProps = {
   examInfo?: ExamResponseDto["data"];
+  readOnly?: boolean;
 };
 
 const MOCK_EXAM_INFO: ExamResponseDto["data"] = {
@@ -134,12 +135,14 @@ function SubjectiveAnswerRow({
   value,
   isSelected,
   onSelect,
+  disabled = false,
 }: {
   displayNumber: number;
   questionNumber: number;
   value?: string;
   isSelected: boolean;
   onSelect: (questionNumber: number) => void;
+  disabled?: boolean;
 }) {
   return (
     <div className="border-inbrain-light-blue flex h-12 w-full border-t-[1.5px] border-r-[1.5px] border-l-[1.5px] last:border-b-[1.5px]">
@@ -152,7 +155,9 @@ function SubjectiveAnswerRow({
           "text-gs1 placeholder:text-gs4 flex flex-1 items-center justify-center px-3 text-center text-[17px] font-semibold",
           isSelected &&
             "outline-inbrain-light-blue bg-white outline-2 -outline-offset-2",
+          disabled && "cursor-default",
         )}
+        disabled={disabled}
         onClick={() => onSelect(questionNumber)}
       >
         {value ?? "터치해서 주관식 답안 입력"}
@@ -161,7 +166,10 @@ function SubjectiveAnswerRow({
   );
 }
 
-function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
+function ExamOmrCard({
+  examInfo = MOCK_EXAM_INFO,
+  readOnly = false,
+}: ExamOmrCardProps) {
   const name = useExamSubmissionStore((state) => state.name);
   const school = useExamSubmissionStore((state) => state.school);
   const currentGrade = useExamSubmissionStore((state) => state.grade);
@@ -200,6 +208,10 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
   const [studentTens, studentOnes] = toDigits(currentStudentNumber);
 
   const handleGradeSelect = (nextGrade: 1 | 2 | 3) => {
+    if (readOnly) {
+      return;
+    }
+
     setGrade(nextGrade);
   };
 
@@ -207,6 +219,10 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
     position: "tens" | "ones",
     nextDigit: number,
   ) => {
+    if (readOnly) {
+      return;
+    }
+
     const nextStudentNumber = fromDigits(
       position === "tens" ? nextDigit : studentTens,
       position === "ones" ? nextDigit : studentOnes,
@@ -215,11 +231,18 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
   };
 
   const handleSelectSubjectiveQuestion = (questionNumber: number) => {
+    if (readOnly) {
+      return;
+    }
+
     selectSubjectiveQuestion(questionNumber);
   };
 
   return (
-    <OmrCard answers={answers} onToggleAnswer={toggleObjectiveAnswer}>
+    <OmrCard
+      answers={answers}
+      onToggleAnswer={readOnly ? undefined : toggleObjectiveAnswer}
+    >
       <OmrCard.Body>
         <div className="flex flex-col">
           <div className="border-inbrain-light-blue flex flex-col border-t border-b border-l">
@@ -327,6 +350,7 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
                 {Array.from({ length: 3 }).map((_, index) => (
                   <OmrCard.MarkerBubble
                     key={index}
+                    disabled={readOnly}
                     pressed={currentGrade === index + 1}
                     value={index + 1}
                     onClick={() => handleGradeSelect((index + 1) as 1 | 2 | 3)}
@@ -348,6 +372,7 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <OmrCard.MarkerBubble
                     key={index}
+                    disabled={readOnly}
                     pressed={studentTens === index}
                     value={index}
                     onClick={() => handleStudentDigitSelect("tens", index)}
@@ -360,6 +385,7 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <OmrCard.MarkerBubble
                     key={index}
+                    disabled={readOnly}
                     pressed={studentOnes === index}
                     value={index}
                     onClick={() => handleStudentDigitSelect("ones", index)}
@@ -403,6 +429,7 @@ function ExamOmrCard({ examInfo = MOCK_EXAM_INFO }: ExamOmrCardProps) {
                   isSelected={
                     currentSelectedSubjectiveQuestionNumber === question.number
                   }
+                  disabled={readOnly}
                   onSelect={handleSelectSubjectiveQuestion}
                 />
               ))}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import ExamOmrCard from "@/components/exam/ExamOmrCard";
 import { Button } from "@/components/ui/button";
@@ -7,10 +7,9 @@ import ExamPageFooter from "@/components/exam/ExamPageFooter";
 import { ExitIcon } from "@/components/shared/icons";
 import SubjectiveAnswerInputPad from "@/components/shared/omr-card/SubjectiveAnswerInputPad";
 import {
-  buildSubmitRequestFromStore,
   useExamSubmissionStore,
 } from "@/stores/examSubmissionStore";
-import { fetchExam, submitExam } from "@/services/api";
+import { fetchExam } from "@/services/api";
 
 const EXAM_SUBJECTIVE_INPUT_KEYS = [
   ".",
@@ -32,9 +31,6 @@ function ExamPage() {
   const examQuery = useQuery({
     queryKey: ["exam"],
     queryFn: fetchExam,
-  });
-  const submitMutation = useMutation({
-    mutationFn: submitExam,
   });
 
   const resetExamSubmission = useExamSubmissionStore(
@@ -80,17 +76,16 @@ function ExamPage() {
   }, [examQuery.data, selectedSubjectiveQuestionNumber]);
 
   const handleAutoSubmit = useCallback(async () => {
-    if (!examQuery.data || submitMutation.isPending) {
+    if (!examQuery.data) {
       return;
     }
 
-    const payload = buildSubmitRequestFromStore(examQuery.data.data);
-    const result = await submitMutation.mutateAsync(payload);
-
     navigate("/results", {
-      state: result,
+      state: {
+        examInfo: examQuery.data.data,
+      },
     });
-  }, [examQuery.data, navigate, submitMutation]);
+  }, [examQuery.data, navigate]);
 
   return (
     <>
