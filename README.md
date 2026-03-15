@@ -6,6 +6,14 @@
 
 ## 실행 방법
 
+- apps/server 디렉토리 하위에 .env파일을 생성한 뒤, 아래 내용을 넣어줍니다.
+
+```
+DATABASE_URL="file:./dev.db"
+```
+
+아래 명령어를 차례로 실행합니다.
+
 ```bash
 pnpm install
 pnpm db:generate
